@@ -1,3 +1,3 @@
-import antfu from '@antfu/eslint-config'
+import { itsfan } from '@itsfan/eslint-config'
 
-export default antfu()
+export default itsfan()
