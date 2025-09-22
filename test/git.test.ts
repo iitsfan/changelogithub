@@ -6,12 +6,12 @@ const COMMIT_TO = '49b0222e8d60b7f299941def7511cee0460a8149'
 const regexToFindAllUrls = /https:\/\/\S*/g
 
 it('parse', async () => {
-  const { config, md } = await generate({
-    from: COMMIT_FROM,
-    to: COMMIT_TO,
-  })
+	const { config, md } = await generate({
+		from: COMMIT_FROM,
+		to: COMMIT_TO,
+	})
 
-  expect(config).toMatchInlineSnapshot(`
+	expect(config).toMatchInlineSnapshot(`
     {
       "baseUrl": "github.com",
       "baseUrlApi": "api.github.com",
@@ -41,7 +41,7 @@ it('parse', async () => {
       },
     }
   `)
-  expect(md.replace(/&nbsp;/g, ' ').replace(/ +/g, ' ')).toMatchInlineSnapshot(`
+	expect(md.replace(/&nbsp;/g, ' ').replace(/ +/g, ' ')).toMatchInlineSnapshot(`
     "### Breaking Changes
 
     - **cli**: Rename \`groupByScope\` to \`group\` - by **Enzo Innocenzi** in https://github.com/antfu/changelogithub/issues/22 [<samp>(89282)</samp>](https://github.com/antfu/changelogithub/commit/8928229)
@@ -72,36 +72,36 @@ it('parse', async () => {
 })
 
 it.each([
-  { baseUrl: undefined, baseUrlApi: undefined, repo: undefined },
-  { baseUrl: 'test.github.com', baseUrlApi: 'api.test.github.com', repo: 'user/changelogithub' },
+	{ baseUrl: undefined, baseUrlApi: undefined, repo: undefined },
+	{ baseUrl: 'test.github.com', baseUrlApi: 'api.test.github.com', repo: 'user/changelogithub' },
 ])('should generate config while baseUrl is set to $baseUrl', async (proposedConfig) => {
-  const { config, md } = await generate({
-    ...proposedConfig,
-    from: COMMIT_FROM,
-    to: COMMIT_TO,
-  })
+	const { config, md } = await generate({
+		...proposedConfig,
+		from: COMMIT_FROM,
+		to: COMMIT_TO,
+	})
 
-  if (proposedConfig.baseUrl) {
-    expect(config).toEqual(expect.objectContaining(proposedConfig))
-  }
-  else {
-    expect(config).toEqual(expect.objectContaining({
-      baseUrl: 'github.com',
-      baseUrlApi: 'api.github.com',
-    }))
-  }
+	if (proposedConfig.baseUrl) {
+		expect(config).toEqual(expect.objectContaining(proposedConfig))
+	}
+	else {
+		expect(config).toEqual(expect.objectContaining({
+			baseUrl: 'github.com',
+			baseUrlApi: 'api.github.com',
+		}))
+	}
 
-  const urlsToGithub = md.match(regexToFindAllUrls)
-  expect(urlsToGithub?.every(url => url.startsWith(`https://${config.baseUrl}`))).toBe(true)
+	const urlsToGithub = md.match(regexToFindAllUrls)
+	expect(urlsToGithub?.every(url => url.startsWith(`https://${config.baseUrl}`))).toBe(true)
 })
 
 it('should match with current github repo', async () => {
-  const repo = await getGitHubRepo('github.com')
-  expect(repo).toContain('/changelogithub')
+	const repo = await getGitHubRepo('github.com')
+	expect(repo).toContain('/changelogithub')
 })
 
 it('should throw error when baseUrl is different from git repository', () => {
-  expect(async () => {
-    await getGitHubRepo('custom.git.com')
-  }).rejects.toThrow('Can not parse GitHub repo from url')
+	expect(async () => {
+		await getGitHubRepo('custom.git.com')
+	}).rejects.toThrow('Can not parse GitHub repo from url')
 })
