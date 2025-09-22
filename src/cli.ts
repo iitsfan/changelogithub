@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-
+/* eslint-disable no-console */
 import fs from 'node:fs/promises'
 import process from 'node:process'
 import { blue, bold, cyan, dim, red, yellow } from 'ansis'
 import cac from 'cac'
 import { execa } from 'execa'
 import { version } from '../package.json'
+import { resolveReleaseName } from './git'
 import { uploadAssets } from './github'
 import { generate, hasTagOnGitHub, isRepoShallow, sendRelease } from './index'
 
@@ -19,6 +20,7 @@ cli
 	.option('--github <path>', 'GitHub Repository, e.g. antfu/changelogithub')
 	.option('--release-github <path>', 'Release GitHub Repository, defaults to `github`')
 	.option('--name <name>', 'Name of the release')
+	.option('--name-prefix <prefix>', 'Prefix for the release name, will be combined with version tag')
 	.option('--contributors', 'Show contributors section')
 	.option('--prerelease', 'Mark release as prerelease')
 	.option('-d, --draft', 'Mark release as draft')
@@ -55,7 +57,8 @@ cli
 			console.log(dim(`changelo${bold('github')} `) + dim(`v${version}`))
 
 			const { config, md, commits } = await generate(args as any)
-			webUrl = `https://${config.baseUrl}/${config.releaseRepo}/releases/new?title=${encodeURIComponent(String(config.name || config.to))}&body=${encodeURIComponent(String(md))}&tag=${encodeURIComponent(String(config.to))}&prerelease=${config.prerelease}`
+			const resolvedName = resolveReleaseName(config.name, config.namePrefix, config.to)
+			webUrl = `https://${config.baseUrl}/${config.releaseRepo}/releases/new?title=${encodeURIComponent(String(resolvedName))}&body=${encodeURIComponent(String(md))}&tag=${encodeURIComponent(String(config.to))}&prerelease=${config.prerelease}`
 
 			console.log(cyan(config.from) + dim(' -> ') + blue(config.to) + dim(` (${commits.length} commits)`))
 			console.log(dim('--------------'))

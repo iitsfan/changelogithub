@@ -6,6 +6,7 @@ import { notNullish } from '@antfu/utils'
 import { cyan, green, red } from 'ansis'
 import { $fetch } from 'ofetch'
 import { glob } from 'tinyglobby'
+import { resolveReleaseName } from './git'
 
 export async function sendRelease(
 	options: ChangelogOptions,
@@ -30,7 +31,7 @@ export async function sendRelease(
 	const body = {
 		body: content,
 		draft: options.draft || false,
-		name: options.name || options.to,
+		name: resolveReleaseName(options.name, options.namePrefix, options.to),
 		prerelease: options.prerelease,
 		tag_name: options.to,
 	}

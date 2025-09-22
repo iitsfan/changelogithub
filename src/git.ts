@@ -22,6 +22,21 @@ export function getSafeTagTemplate(template: string) {
 	return template.includes('%s') ? template : `${template}%s`
 }
 
+export function resolveReleaseName(name?: string, namePrefix?: string, tag?: string): string {
+	// If explicit name is provided, use it as-is
+	if (name) {
+		return name
+	}
+
+	// If namePrefix is provided, combine it with the tag
+	if (namePrefix && tag) {
+		return `${namePrefix} ${tag}`
+	}
+
+	// Default to the tag
+	return tag || ''
+}
+
 function getVersionString(template: string, tag: string) {
 	const pattern = template.replace(/%s/g, '(.+)')
 	const regex = new RegExp(`^${pattern}$`)

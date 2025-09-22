@@ -32,6 +32,11 @@ export interface ChangelogOptions extends Partial<ChangelogenOptions> {
 	 */
 	name?: string
 	/**
+	 * Prefix for the release name, will be combined with version tag
+	 * @example "PrefixExample" -> "PrefixExample v1.0.0"
+	 */
+	namePrefix?: string
+	/**
 	 * Mark the release as a draft
 	 */
 	draft?: boolean
