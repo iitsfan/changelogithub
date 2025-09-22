@@ -49,7 +49,7 @@ function formatTitle(name: string, options: ResolvedChangelogOptions) {
 	if (!options.emoji)
 		name = name.replace(emojisRE, '')
 
-	return `### &nbsp;&nbsp;&nbsp;${name.trim()}`
+	return `### ${name.trim()}`
 }
 
 function formatSection(commits: Commit[], sectionName: string, options: ResolvedChangelogOptions) {
@@ -113,7 +113,7 @@ export function generateMarkdown(commits: Commit[], options: ResolvedChangelogOp
 
 	const url = `https://${options.baseUrl}/${options.repo}/compare/${options.from}...${options.to}`
 
-	lines.push('', `##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](${url})`)
+	lines.push('', `#### [Full Changelog](${url})`)
 
 	return convert(lines.join('\n').trim(), true)
 }

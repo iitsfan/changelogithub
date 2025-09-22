@@ -8,15 +8,16 @@ export function defineConfig(config: ChangelogOptions) {
 const defaultConfig = {
 	scopeMap: {},
 	types: {
-		feat: { title: '🚀 Features' },
-		fix: { title: '🐞 Bug Fixes' },
-		perf: { title: '🏎 Performance' },
+		feat: { title: 'Features' },
+		fix: { title: 'Bug Fixes' },
+		perf: { title: 'Performance' },
+		chore: { title: 'Other Changes' },
 	},
 	titles: {
-		breakingChanges: '🚨 Breaking Changes',
+		breakingChanges: 'Breaking Changes',
 	},
 	contributors: true,
-	capitalize: true,
+	capitalize: false,
 	group: true,
 	tag: 'v%s',
 } satisfies ChangelogOptions
