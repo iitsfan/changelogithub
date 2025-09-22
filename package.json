@@ -45,9 +45,9 @@
 		"dev": "unbuild --stub",
 		"test": "vitest",
 		"lint": "eslint .",
-		"prepublishOnly": "nr build",
+		"prepublishOnly": "pnpm run build",
 		"release": "bumpp --commit --push --tag",
-		"start": "nr dev && node cli.mjs",
+		"start": "pnpm run dev && node cli.mjs",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
